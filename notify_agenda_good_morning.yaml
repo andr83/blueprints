@@ -139,7 +139,7 @@ blueprint:
       description: |-
         The telegram chat id to send image
       selector:
-        text:
+        text: {}
     news_entity:
       name: News entity
       description:
