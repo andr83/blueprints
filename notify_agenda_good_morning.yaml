@@ -275,7 +275,7 @@ action:
         {%- endif %}
 
         {%- if news_entity is defined %}
-        Please use the following news list in CSV format and select only the interesting ones with the following topics: Riga, politics, Russia, language, war, and Ukrainian.
+        Please use the following news list in CSV format and return as list in format {{ title }}({{ url }}) only the interesting ones with the following topics: Riga, politics, Russia, language, war, and Ukrainian.
           - Titles: {{ state_attr(news_entity, 'title') }}
           - Urls: {{ state_attr(news_entity, 'url') }}
         {% endif %}
