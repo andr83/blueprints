@@ -134,6 +134,13 @@ blueprint:
         This should be a OpenAI conversation agent for this Blueprint to work.
       selector:
         conversation_agent:
+    news_entity:
+      name: News entity
+      description:
+        Entity with news scrapped from any site. It should contains attributes title and url.
+      selector:
+        entity:
+          multiple: false    
     prompt:
       name: Conversation agent prompt
       selector:
@@ -167,6 +174,7 @@ action:
       notify_number: !input notify_number
       zone_entity: !input zone_entity
       calendar_duration: !input calendar_duration
+      news_entity: !input news_entity
       prompt: !input prompt
   - alias: Fetch First Calendar Agenda
     service: calendar.list_events
@@ -265,6 +273,12 @@ action:
             - No upcoming events.
           {%- endif %}
         {%- endif %}
+
+        {%- if news_entity is defined %}
+        Please use the following news list in CSV format and select only the interesting ones with the following topics: Riga, politics, Russia, language, war, and Ukrainian.
+          - Titles: {{ state_attr(news_entity, 'title') }}
+          - Urls: {{ state_attr(news_entity, 'url') }}
+        {% endif %}
 
         {{ prompt }}
       agent_id: !input conversation_agent
