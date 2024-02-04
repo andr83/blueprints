@@ -313,13 +313,11 @@ action:
         service: !input notify_service_3
         data:
           title: "{{ now().strftime('%A') }} Agenda"
-          message: "{{ agent.response.speech.plain.speech }}"
-  {%- if send_image_to_chat is defined %}
+          message: "{{ agent.response.speech.plain.speech }}"  
   - alias: "Send image"
     service: telegram_bot.send_photo
     data:
       authentication: digest
       url: "https://vxy01chpmy7meth3rekyrjiewc79zsar.ui.nabu.casa{{ state_attr('image.ai_generated_weather_broadcast_image', 'entity_picture') }}"
-      target: "{{ send_image_to_chat }}"
-  {% endif %}
+      target: "{{ send_image_to_chat }}"  
   
