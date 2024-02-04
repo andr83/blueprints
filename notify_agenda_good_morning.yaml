@@ -134,6 +134,12 @@ blueprint:
         This should be a OpenAI conversation agent for this Blueprint to work.
       selector:
         conversation_agent:
+    send_image_to_chat:
+      name: Telegram chat id to send image
+      description: |-
+        The telegram chat id to send image
+      selector:
+        string:
     news_entity:
       name: News entity
       description:
@@ -175,6 +181,7 @@ action:
       zone_entity: !input zone_entity
       calendar_duration: !input calendar_duration
       news_entity: !input news_entity
+      send_image_to_chat: !input send_image_to_chat
       prompt: !input prompt
   - alias: Fetch First Calendar Agenda
     service: calendar.list_events
@@ -307,4 +314,10 @@ action:
         data:
           title: "{{ now().strftime('%A') }} Agenda"
           message: "{{ agent.response.speech.plain.speech }}"
+  - alias: "Send image"
+    service: telegram_bot.send_photo
+    data:
+      authentication: digest
+      url: "https://vxy01chpmy7meth3rekyrjiewc79zsar.ui.nabu.casa{{ state_attr('image.ai_generated_weather_broadcast_image', 'entity_picture') }}"
+      target: {{ send_image_to_chat }}
   
